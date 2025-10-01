@@ -10,16 +10,16 @@ export const localesText = ["English", "简体中文"] as const;
 export const ON_RESOURCE_LOADED = "ON_RESOURCE_LOADED";
 
 export type langPackages = {
-  text: textJsonType;
   resource: {
     antd?: any;
     dayjs?: any;
   };
 };
 
-export const t = (key: string) => {
+export const t = (key: keyof textJsonType) => {
   return window.langPackages?.text?.[key] || key;
 };
+window.t = t;
 
 let init = true
 
@@ -38,7 +38,8 @@ export const initI18n = async (lang: (typeof locales)[number]) => {
   if (lang === "zh-cn") {
     await import("../locale/zh-cn/text.json").then((res) => {
       textJson = res.default;
-      langPackages.text = textJson;
+      window.langPackages = langPackages || {}
+      window.langPackages.text = textJson;
     });
     import("antd/es/locale/zh_CN.js").then((res) => {
       langPackages.resource.antd = res.default;
@@ -51,7 +52,8 @@ export const initI18n = async (lang: (typeof locales)[number]) => {
   if (lang === "en") {
     await import("../locale/en/text.json").then((res) => {
       textJson = res.default;
-      langPackages.text = textJson;
+      window.langPackages = langPackages || {}
+      window.langPackages.text = textJson;
     });
     import("antd/es/locale/en_US.js").then((res) => {
       langPackages.resource.antd = res.default;

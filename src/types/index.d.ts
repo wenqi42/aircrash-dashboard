@@ -3,7 +3,8 @@ import text from '../locale/zh-cn/text.json'
 declare global {
   interface Window {
     dayjs: typeof import("dayjs");
-    langPackages: langPackages
+    langPackages: langPackages;
+    t: (key: keyof textJsonType) => string;
   }
 }
 

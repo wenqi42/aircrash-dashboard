@@ -1,8 +1,8 @@
 import ConfigSlice from "./configSlice";
 import AirSLice, { fetchAirDataMiddleware } from "./airData";
 //redux/toolkit的模板
-import { configureStore, Dispatch, applyMiddleware } from "@reduxjs/toolkit";
-import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch, useSelector, TypedUseSelectorHook, useStore } from "react-redux";
 import { onResourceLoaded } from "@/i18n/i18n";
 
 export const sliceMap = {

@@ -1,3 +1,7 @@
 {
-    "language":"简体中文"
+    "language":"简体中文",
+    "selectCountry":"通过国家过滤数据",
+    "selectDateRange":"选择日期范围",
+    "selectFatalitiesRange":"死亡人数范围",
+    "selectDeathRateRange":"死亡率范围"
 }

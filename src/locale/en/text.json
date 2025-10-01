@@ -1,3 +1,7 @@
 {
-    "language":"English"
+    "language":"English",
+    "selectCountry":"Filter data by country",
+    "selectDateRange":"Select date range",
+    "selectFatalitiesRange":"Fatalities range",
+    "selectDeathRateRange":"Death rate range"
 }

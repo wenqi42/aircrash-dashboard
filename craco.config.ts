@@ -9,6 +9,19 @@ export default {
       webpackConfig: Configuration,
       { env }: { env: "development" | "production" }
     ) => {
+      // 移除 ModuleScopePlugin，允许从 src 目录外导入文件
+      if (webpackConfig.resolve?.plugins) {
+        webpackConfig.resolve.plugins = webpackConfig.resolve.plugins.filter(
+          (plugin) => plugin?.constructor.name !== "ModuleScopePlugin"
+        );
+      }
+      if (webpackConfig.module?.rules) {
+        webpackConfig.module.rules.push({
+          test: "/.(scss|sass)$/",
+          use: ["sass-loader"],
+        });
+      }
+
       const config: Configuration = {
         ...webpackConfig,
         plugins: [

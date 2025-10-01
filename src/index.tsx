@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store/index";
@@ -15,7 +14,7 @@ window.dayjs = dayjs;
 
 const initApp = async ()=>{
   const lang = getPresaveLang()
-  changeLang(lang as any)
+  changeLang(lang as any);
   const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
   );

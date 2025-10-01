@@ -1,20 +1,21 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import store, { useAppDispatch, useStoreSlice } from "./store";
-import { ConfigSlice} from "./store/configSlice";
 import { ConfigProvider } from "antd";
-import LocaleChange from "./components/LocaleChange";
 import Main from "./modules/main";
-
+import SelectorContainer from "./modules/selector";
+import DataContextProvider from "./context";
 function App() {
-  const testStore = useStoreSlice("config");
+  const antdLocale = useStoreSlice("config").get().resource?.antd;
 
   return (
-    <ConfigProvider locale={testStore.get().resource?.antd}>
-      <div className="app-container">
-        <LocaleChange />
-        <Main />
-      </div>
+    <ConfigProvider locale={antdLocale}>
+      <DataContextProvider>
+        <div className="app-container">
+          <SelectorContainer></SelectorContainer>
+          <Main />
+        </div>
+      </DataContextProvider>
     </ConfigProvider>
   );
 }

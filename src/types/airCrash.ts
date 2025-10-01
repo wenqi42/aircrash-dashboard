@@ -1,3 +1,5 @@
+import { FeatureCollection } from "geojson";
+
 export interface AirCrashData {
   Date: string;
   Time: number;
@@ -5,15 +7,24 @@ export interface AirCrashData {
   Operator: string;
   Route: string;
   Type: string;
-  'cn/In'?: number;
+  "cn/In"?: number;
   Aboard: number;
   Fatalities: number;
   Ground: number;
   Summary: string;
+  country:string
+}
+
+export interface ISelector {
+  country?: string;
+  date?: string[];
+  fatalities?: [number, number];
+  deathRate?: [string | number, string | number];
 }
 
 export interface AirDataState {
-  data: AirCrashData[];
+  data: FeatureCollection<any, AirCrashData>;
   loading: boolean;
   error: string | null;
-} 
+  selector?: ISelector;
+}
