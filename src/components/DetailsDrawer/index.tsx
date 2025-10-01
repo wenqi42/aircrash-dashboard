@@ -62,7 +62,7 @@ const DetailsDrawer: React.FC = () => {
 
   return (
     <Drawer
-      title={<Title level={5} style={{ margin: 0 }}>事故详情</Title>}
+      title={<Title level={5} style={{ margin: 0 }}>{window.t('drawer.title')}</Title>}
       width={520}
       open={open}
       destroyOnClose
@@ -73,10 +73,10 @@ const DetailsDrawer: React.FC = () => {
           <Descriptions
             title={
               <Space wrap>
-                <Text strong>{properties?.Location || "未知地点"}</Text>
+                <Text strong>{properties?.Location || window.t('common.unknown')}</Text>
                 {properties?.country ? <Tag color="blue">{properties.country}</Tag> : null}
                 {typeof properties?.index === "number" ? (
-                  <Tag>编号 {properties.index}</Tag>
+                  <Tag>{window.t('drawer.field.index')} {properties.index}</Tag>
                 ) : null}
               </Space>
             }
@@ -84,67 +84,63 @@ const DetailsDrawer: React.FC = () => {
             column={1}
             size="middle"
           >
-            <Descriptions.Item label="日期">
-              {properties?.Date || "-"}
+            <Descriptions.Item label={window.t('drawer.field.date')}>
+              {properties?.Date || window.t('common.unknown')}
             </Descriptions.Item>
-            <Descriptions.Item label="时间">
+            <Descriptions.Item label={window.t('drawer.field.time')}>
               {formatTimeFromFraction(properties?.Time)}
             </Descriptions.Item>
-            <Descriptions.Item label="航空公司/运营商">
-              {properties?.Operator || "-"}
+            <Descriptions.Item label={window.t('drawer.field.operator')}>
+              {properties?.Operator || window.t('common.unknown')}
             </Descriptions.Item>
-            <Descriptions.Item label="航线">
-              {properties?.Route || "-"}
+            <Descriptions.Item label={window.t('drawer.field.route')}>
+              {properties?.Route || window.t('common.unknown')}
             </Descriptions.Item>
-            <Descriptions.Item label="机型">
-              {properties?.Type || "-"}
+            <Descriptions.Item label={window.t('drawer.field.type')}>
+              {properties?.Type || window.t('common.unknown')}
             </Descriptions.Item>
-            <Descriptions.Item label="注册号">
-              {properties?.Registration || "-"}
+            <Descriptions.Item label={window.t('drawer.field.registration')}>
+              {properties?.Registration || window.t('common.unknown')}
             </Descriptions.Item>
-            <Descriptions.Item label="出厂序列号">
-              {properties?.["cn/In"] || "-"}
+            <Descriptions.Item label={window.t('drawer.field.cnin')}>
+              {properties?.["cn/In"] || window.t('common.unknown')}
             </Descriptions.Item>
           </Descriptions>
 
-          <Descriptions title="人员与损失" bordered column={2} size="middle">
-            <Descriptions.Item label="搭载">
+          <Descriptions title={window.t('drawer.section.people')} bordered column={2} size="middle">
+            <Descriptions.Item label={window.t('drawer.field.aboard')}>
               {formatNumber(properties?.Aboard)}
             </Descriptions.Item>
-            <Descriptions.Item label="死亡人数">
+            <Descriptions.Item label={window.t('drawer.field.fatalities')}>
               {formatNumber(properties?.Fatalities)}
             </Descriptions.Item>
-            <Descriptions.Item label="地面伤亡">
+            <Descriptions.Item label={window.t('drawer.field.ground')}>
               {formatNumber(properties?.Ground)}
             </Descriptions.Item>
-            <Descriptions.Item label="死亡率">
+            <Descriptions.Item label={window.t('drawer.field.deathRate')}>
               {deathRate}
             </Descriptions.Item>
           </Descriptions>
 
-          <Descriptions title="地理信息" bordered column={2} size="middle">
-            <Descriptions.Item label="经度">
-              {typeof lng === "number" ? lng.toFixed(6) : "-"}
+          <Descriptions title={window.t('drawer.section.geo')} bordered column={2} size="middle">
+            <Descriptions.Item label={window.t('drawer.field.longitude')}>
+              {typeof lng === "number" ? lng.toFixed(6) : window.t('common.unknown')}
             </Descriptions.Item>
-            <Descriptions.Item label="纬度">
-              {typeof lat === "number" ? lat.toFixed(6) : "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="坐标类型">{selectData?.geometry?.type || "-"}</Descriptions.Item>
-            <Descriptions.Item label="国家">
-              {properties?.country || "-"}
+            <Descriptions.Item label={window.t('drawer.field.latitude')}>
+              {typeof lat === "number" ? lat.toFixed(6) : window.t('common.unknown')}
             </Descriptions.Item>
           </Descriptions>
 
           <Divider style={{ margin: "8px 0" }} />
           <div>
-            <Text strong>摘要</Text>
+            <Text strong>{window.t('drawer.section.summary')}</Text>
             <Paragraph style={{ marginTop: 8 }}>
-              {properties?.Summary || "-"}
+              {properties?.Summary || window.t('common.unknown')}
             </Paragraph>
           </div>
         </Space>
       ) : (
-        <Text type="secondary">请选择地图上的一个事故点以查看详情。</Text>
+        <Text type="secondary">{window.t('drawer.selectTip')}</Text>
       )}
     </Drawer>
   );

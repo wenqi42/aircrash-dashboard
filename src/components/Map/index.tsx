@@ -44,6 +44,7 @@ const Map = (props: IMapProps) => {
   const [mapInstance, setMapInstance] = useState<Scene | null>(null);
   const mapDom = useRef<HTMLDivElement | null>(null);
 
+  const { i18n } = useStoreSlice('config').get()
   const{filterData:geoData,setSelectData }= useFilterDataContext()
   useEffect(() => {
     if (mapDom.current) {
@@ -104,19 +105,19 @@ const Map = (props: IMapProps) => {
             fields: [
               {
                 field: 'country',
-                formatField: () => '国家',
+                formatField: () => window.t('drawer.field.country'),
               },
               {
                 field: 'Date',
-                formatField: () => '日期',
+                formatField: () => window.t('drawer.field.date'),
               },
               {
                 field: 'Fatalities',
-                formatField: () => '死亡人数',
+                formatField: () => window.t('drawer.field.fatalities'),
               },
               {
                 field: 'Aboard',
-                formatField: () => '搭载',
+                formatField: () => window.t('drawer.field.aboard'),
               },
 
             ],
@@ -129,7 +130,7 @@ const Map = (props: IMapProps) => {
     return ()=>{
       mapInstance?.removeLayer(pointerLay)
     }
-  }, [mapInstance, geoData]);
+  }, [mapInstance, geoData,i18n,setSelectData]);
 
   return <div ref={mapDom} id={id} />;
 };
