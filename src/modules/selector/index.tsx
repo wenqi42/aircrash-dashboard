@@ -6,6 +6,7 @@ import DateSelector from "@/components/DateSelector";
 import FatalitiesSelector from "@/components/FatalitiesSelector";
 import DeathRateSelector from "@/components/DeathRateSelector";
 import LocaleChange from "@/components/LocaleChange";
+import RandomSelect from "@/components/RandomSelect";
 const { Header } = Layout;
 
 interface ISelectorContainer {}
@@ -23,6 +24,7 @@ const SelectorContainer = (
         <DateSelector></DateSelector>
         <FatalitiesSelector></FatalitiesSelector>
         <DeathRateSelector></DeathRateSelector>
+        <RandomSelect />
       </Header>
     </div>
   );

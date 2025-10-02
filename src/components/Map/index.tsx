@@ -1,6 +1,6 @@
 import { useFilterDataContext } from "@/context";
 import { useStoreSlice } from "@/store";
-import { getRandomHexColor } from "@/utils";
+import { eventEmitter, getRandomHexColor } from "@/utils";
 import {
   ILayerConfig,
   PolygonLayer,
@@ -14,9 +14,7 @@ import {
   ILayer,
   LayerPopup,
 } from "@antv/l7";
-import { Spin } from "antd";
-import { FeatureCollection, GeoJsonObject, Point } from "geojson";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export interface IMapProps {
   id: string;
@@ -24,6 +22,8 @@ export interface IMapProps {
 }
 
 const totalLength = 3000
+
+export const SELECT_FEATURE_ID = '_SELECT_FEATURE_ID_'
 
 function calcSize(size: number) {
   if(size === 0) return 9
@@ -46,6 +46,14 @@ const Map = (props: IMapProps) => {
 
   const { i18n } = useStoreSlice('config').get()
   const{filterData:geoData,setSelectData }= useFilterDataContext()
+
+  const dataLengthRef = useRef(5)
+
+  useMemo(()=>{
+    let size = calcSize(geoData.features.length)
+    dataLengthRef.current = size
+  },[geoData.features.length])
+  const layerInstance = useRef<ILayer | null>(null)
   useEffect(() => {
     if (mapDom.current) {
       const scene = new Scene({
@@ -68,7 +76,7 @@ const Map = (props: IMapProps) => {
     }
     return () => {
       if (mapInstance) {
-        mapInstance.destroy();
+        mapInstance?.destroy?.();
       }
     };
   }, []);
@@ -76,61 +84,93 @@ const Map = (props: IMapProps) => {
   useEffect(() => {
     let  pointerLay:ILayer
     if (mapInstance) {
-      const size = calcSize(geoData.features.length)
       const scene = mapInstance;
 
-
-      pointerLay = new PolygonLayer()
-        .source(geoData)
-        .shape("circle")
-        .size(size).active(true).color('Fatalities',(val)=>{
-          return calcColor(val)
-        })
-        .style({
-          opacity: 0.5,
-          strokeWidth: 1,
-          cursor: 'pointer',
+      if(!layerInstance.current){
+        pointerLay = new PolygonLayer()
+          .source(geoData)
+          .shape("circle")
+          .size('country',()=>{
+            return dataLengthRef.current
+          }).active(true).color('Fatalities',(val)=>{
+            return calcColor(val)
+          })
+          .style({
+            opacity: 0.5,
+            strokeWidth: 1,
+            cursor: 'pointer',
+          });
+          pointerLay.on('click', (e)=>{
+            setSelectData(e.feature)
+          })
+        scene.addLayer(pointerLay);
+          layerInstance.current = pointerLay
+  
+        //** tooltip layer */
+        const layerPopup2 = new LayerPopup({
+          items: [
+            {
+              layer: pointerLay,
+              fields: [
+                {
+                  field: 'country',
+                  formatField: () => window.t('drawer.field.country'),
+                },
+                {
+                  field: 'Date',
+                  formatField: () => window.t('drawer.field.date'),
+                },
+                {
+                  field: 'Fatalities',
+                  formatField: () => window.t('drawer.field.fatalities'),
+                },
+                {
+                  field: 'Aboard',
+                  formatField: () => window.t('drawer.field.aboard'),
+                },
+  
+              ],
+            },
+          ],
         });
-        pointerLay.on('click', (e)=>{
-          setSelectData(e.feature)
-        })
-      scene.addLayer(pointerLay);
-
-
-      //** tooltip layer */
-      const layerPopup2 = new LayerPopup({
-        items: [
-          {
-            layer: pointerLay,
-            fields: [
-              {
-                field: 'country',
-                formatField: () => window.t('drawer.field.country'),
-              },
-              {
-                field: 'Date',
-                formatField: () => window.t('drawer.field.date'),
-              },
-              {
-                field: 'Fatalities',
-                formatField: () => window.t('drawer.field.fatalities'),
-              },
-              {
-                field: 'Aboard',
-                formatField: () => window.t('drawer.field.aboard'),
-              },
-
-            ],
-          },
-        ],
-      });
-      mapInstance.addPopup?.(layerPopup2)
-      //** tooltip layer */
+        mapInstance.addPopup?.(layerPopup2)
+        //** tooltip layer */
+      } else {
+        layerInstance.current.setData(geoData)
+      }
     }
-    return ()=>{
-      mapInstance?.removeLayer(pointerLay)
-    }
+    return
   }, [mapInstance, geoData,i18n,setSelectData]);
+
+  const SELECT_FEATURE_ID_Cb = useCallback(()=>{
+    const layer = layerInstance.current
+    if(!layer){
+      return
+    }
+    const source = layer.getSource()
+    const length = source.data.dataArray.length
+    const randomId = Math.floor(Math.random() * length)
+    let random = source.getFeatureById(randomId)
+    if(random){
+      setSelectData(random as any)
+      layer.setActive(randomId)
+    }
+  },[layerInstance.current])
+
+  useEffect(()=>{
+    eventEmitter.on(SELECT_FEATURE_ID,SELECT_FEATURE_ID_Cb)
+    return ()=>{
+      eventEmitter.removeListener(SELECT_FEATURE_ID,SELECT_FEATURE_ID_Cb)
+    }
+  },[SELECT_FEATURE_ID_Cb])
+
+  useEffect(()=>{
+    return ()=>{
+      if(layerInstance.current && mapInstance){
+        mapInstance?.removeLayer?.(layerInstance.current)
+      }
+    }
+  },[mapInstance])
 
   return <div ref={mapDom} id={id} />;
 };

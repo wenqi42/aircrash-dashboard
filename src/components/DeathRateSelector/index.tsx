@@ -11,7 +11,7 @@ interface DeathRateSelectorProps {
 const DeathRateSelector: React.FC<DeathRateSelectorProps> = ({
   style = {
     minWidth: 300,
-    margin: '0px 15px',
+    margin: '0px 10px',
     display:'flex',
     justifyContent:'flex-start',
     alignItems:'center',

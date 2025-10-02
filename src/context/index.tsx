@@ -6,8 +6,8 @@ type DataType = AirDataState["data"];
 
 export interface IDataContext extends Partial<AirDataState> {
   filterData: DataType;
-  selectData?: DataType['features'][number];
-  setSelectData: (data: DataType['features'][number]) => void;
+  selectData?: DataType["features"][number];
+  setSelectData: (data: DataType["features"][number]) => void;
 }
 
 const DataContext = createContext<IDataContext>({
@@ -35,9 +35,13 @@ const DataContextProvider: React.FC<React.PropsWithChildren> = ({
       if (now) {
         const item = now;
         let needFilter = false;
-        const rate = item.properties.Fatalities > 0 
-          ? (Number(item.properties.Aboard) / Number(item.properties.Fatalities)).toFixed(4)
-          : "0";
+        const rate =
+          item.properties.Fatalities > 0
+            ? (
+                Number(item.properties.Fatalities) /
+                Number(item.properties.Aboard)
+              ).toFixed(4)
+            : "0";
 
         if (country && !item.properties.country?.includes(country)) {
           needFilter = true;
@@ -77,7 +81,7 @@ const DataContextProvider: React.FC<React.PropsWithChildren> = ({
     return newData;
   }, [country, date, fatalities, deathRate, oriData]);
 
-  const [selectData, setSelectData] = useState<DataType['features'][number]>();
+  const [selectData, setSelectData] = useState<DataType["features"][number]>();
   return (
     <DataContext.Provider value={{ filterData, selectData, setSelectData }}>
       {children}

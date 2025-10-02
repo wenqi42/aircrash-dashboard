@@ -1,6 +1,6 @@
 {
     "language":"简体中文",
-    "selectCountry":"通过国家过滤数据",
+    "selectCountry":"通过国家/地区过滤数据",
     "selectDateRange":"选择日期范围",
     "selectFatalitiesRange":"死亡人数范围",
     "selectDeathRateRange":"死亡率范围",
@@ -13,7 +13,7 @@
     "drawer.field.date":"日期",
     "drawer.field.time":"时间",
     "drawer.field.location":"地点",
-    "drawer.field.country":"国家",
+    "drawer.field.country":"国家/地区",
     "drawer.field.operator":"航空公司/运营商",
     "drawer.field.route":"航线",
     "drawer.field.type":"机型",
@@ -27,5 +27,7 @@
     "drawer.field.latitude":"纬度",
     "drawer.field.geomType":"坐标类型",
     "drawer.field.index":"编号",
-    "common.unknown":"-"
+    "common.unknown":"-",
+    "随机选择":"随机选择",
+    "点击我，来随便选个数据看看":"点击我，来随便选个数据看看"
 }
