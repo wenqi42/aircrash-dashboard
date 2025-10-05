@@ -9,6 +9,7 @@ export default {
       webpackConfig: Configuration,
       { env }: { env: "development" | "production" }
     ) => {
+      webpackConfig.devtool = "nosources-source-map";
       // 移除 ModuleScopePlugin，允许从 src 目录外导入文件
       if (webpackConfig.resolve?.plugins) {
         webpackConfig.resolve.plugins = webpackConfig.resolve.plugins.filter(
