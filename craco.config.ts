@@ -9,7 +9,6 @@ export default {
       webpackConfig: Configuration,
       { env }: { env: "development" | "production" }
     ) => {
-      webpackConfig.devtool = "nosources-source-map";
       // 移除 ModuleScopePlugin，允许从 src 目录外导入文件
       if (webpackConfig.resolve?.plugins) {
         webpackConfig.resolve.plugins = webpackConfig.resolve.plugins.filter(
@@ -62,6 +61,7 @@ export default {
 
       return {
         ...config,
+        devtool: false,
         optimization: {
           splitChunks: {
             chunks: "all",
@@ -81,12 +81,12 @@ export default {
                 priority: -20,
                 reuseExistingChunk: true,
               },
-              antdLocale: {
-                name: "antd-locale",
-                test: /[\\/]node_modules[\\/]antd[\\/]es[\\/]locale/,
-                priority: 10,
-                chunks: "async",
-              },
+              // antdLocale: {
+              //   name: "antd-locale",
+              //   test: /[\\/]node_modules[\\/]antd[\\/]es[\\/]locale/,
+              //   priority: 10,
+              //   chunks: "async",
+              // },
             },
           },
         },
