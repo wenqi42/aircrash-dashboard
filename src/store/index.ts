@@ -2,7 +2,12 @@ import ConfigSlice from "./configSlice";
 import AirSLice, { fetchAirDataMiddleware } from "./airData";
 //redux/toolkit的模板
 import { configureStore } from "@reduxjs/toolkit";
-import { useDispatch, useSelector, TypedUseSelectorHook, useStore } from "react-redux";
+import {
+  useDispatch,
+  useSelector,
+  TypedUseSelectorHook,
+  useStore,
+} from "react-redux";
 import { onResourceLoaded } from "@/i18n/i18n";
 
 export const sliceMap = {
@@ -28,12 +33,11 @@ const store = configureStore({
 
         //   console.log('state after dispatch', getState(),returnValue)
         // },1500)
-
         const returnValue = next(action);
         return returnValue;
       };
     });
-    mid.push(fetchAirDataMiddleware)
+    mid.push(fetchAirDataMiddleware);
     return mid;
   },
   devTools: process.env.NODE_ENV !== "production",
@@ -44,8 +48,6 @@ onResourceLoaded((k, v) => {
     ConfigSlice.actions.loadResource?.({ resourceKey: k, resource: v })
   );
 });
-
-
 
 // 导出 store 类型
 export type RootState = ReturnType<typeof store.getState>;

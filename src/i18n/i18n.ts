@@ -21,7 +21,7 @@ export const t = (key: keyof textJsonType) => {
 };
 window.t = t;
 
-let init = true
+let init = true;
 
 export const initI18n = async (lang: (typeof locales)[number]) => {
   let langPackages: langPackages = { text: {}, resource: {} } as langPackages;
@@ -38,38 +38,38 @@ export const initI18n = async (lang: (typeof locales)[number]) => {
   if (lang === "zh-cn") {
     await import("../locale/zh-cn/text.json").then((res) => {
       textJson = res.default;
-      window.langPackages = langPackages || {}
+      window.langPackages = langPackages || {};
       window.langPackages.text = textJson;
     });
     import("antd/es/locale/zh_CN.js").then((res) => {
       langPackages.resource.antd = res.default;
     });
     import("dayjs/locale/zh-cn").then((res) => {
-      dayjs.locale(langPackages.resource.dayjs)
+      dayjs.locale(res.default);
     });
   }
   //获取英文的资源包
   if (lang === "en") {
     await import("../locale/en/text.json").then((res) => {
       textJson = res.default;
-      window.langPackages = langPackages || {}
+      window.langPackages = langPackages || {};
       window.langPackages.text = textJson;
     });
     import("antd/es/locale/en_US.js").then((res) => {
       langPackages.resource.antd = res.default;
     });
     import("dayjs/locale/en").then((res) => {
-      dayjs.locale(langPackages.resource.dayjs)
+      dayjs.locale(res.default);
     });
   }
-  init = false
+  init = false;
   return langPackages;
 };
 
 export const changeLang = async (lang: (typeof locales)[number]) => {
-  const currentLang = getPresaveLang()
-  if(currentLang === lang && !init){
-    return
+  const currentLang = getPresaveLang();
+  if (currentLang === lang && !init) {
+    return;
   }
   const langPackages = await initI18n(lang);
   document.documentElement.lang = lang;
