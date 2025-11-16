@@ -30,6 +30,11 @@ export default {
             dayjs: "dayjs", // 会自动将 dayjs 注入到每个模块
           }),
         ],
+        externals: {
+          "@antv/l7": "window.L7",
+          react: "window.React",
+          "react-dom": "window.ReactDOM",
+        },
         resolve: {
           ...webpackConfig.resolve,
           alias: {
