@@ -24,6 +24,10 @@ export default {
 
       const config: Configuration = {
         ...webpackConfig,
+        output: {
+          ...webpackConfig.output,
+          publicPath: "/aircrash-dashboard",
+        },
         plugins: [
           ...(webpackConfig.plugins as any),
           new ProvidePlugin({
