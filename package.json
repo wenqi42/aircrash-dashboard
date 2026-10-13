@@ -2,6 +2,7 @@
   "name": "air-crash-dashboard",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://wenqi42.github.io/aircrash-dashboard",
   "dependencies": {
     "@antv/l7": "^2.22.5",
     "@antv/l7-maps": "^2.22.5",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "@craco/types": "^7.1.0"
+    "@craco/types": "^7.1.0",
+    "gh-pages": "^6.3.0"
   }
 }
