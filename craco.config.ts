@@ -47,14 +47,13 @@ export default {
           },
         },
       };
-
       if (env === "development") {
         return {
           ...config,
           devServer: {
             port: 3000,
             hot: true,
-            open: true,
+            open: ['/aircrash-dashboard'],
             proxy: {
               "/api": {
                 target: "http://localhost:8080",
