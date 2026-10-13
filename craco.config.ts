@@ -26,7 +26,7 @@ export default {
         ...webpackConfig,
         output: {
           ...webpackConfig.output,
-          publicPath: "/aircrash-dashboard",
+          publicPath: "/aircrash-dashboard/",
         },
         plugins: [
           ...(webpackConfig.plugins as any),
@@ -53,7 +53,7 @@ export default {
           devServer: {
             port: 3000,
             hot: true,
-            open: ['/aircrash-dashboard'],
+            open: ['/aircrash-dashboard/'],
             proxy: {
               "/api": {
                 target: "http://localhost:8080",
