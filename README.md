@@ -3,3 +3,6 @@
 # 多语言翻译自 Google 翻译
 
 # 地理数据 源自  OpenStreetMap nominatim 开源数据
+
+# Demo 
+[空难数据集](https://wenqi42.github.io/aircrash-dashboard/)
